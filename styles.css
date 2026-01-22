@@ -292,3 +292,26 @@ code{ background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 8px; 
   .nav{ gap: 4px; }
   .nav a{ padding: 8px 9px; }
 }
+@media (max-width: 520px){
+  .nav{
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar{ display:none; }
+
+  .nav a{
+    white-space: nowrap;
+  }
+
+  .brand__text small{
+    display:none; /* en pantallas muy chicas queda más prolijo */
+  }
+
+  .wa{
+    right: 12px;
+    bottom: 12px;
+    padding: 11px 12px;
+  }
+}
