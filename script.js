@@ -6,13 +6,14 @@
 })();
 <script>
   // Tabla de precios (tu esquema)
-  const PRICE_BY_PASSENGERS = {
-    11: 32000,
-    10: 35000,
-    9: 39000,
-    8: 44000,
-    7: 50000
-  };
+const PRICE_BY_PASSENGERS = {
+  7: 50000,
+  8: 44000,
+  9: 39000,
+  10: 35000,
+  11: 32000
+};
+
 
   const select = document.getElementById("passengers");
   const elPrice = document.getElementById("pricePerPerson");
