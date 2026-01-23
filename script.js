@@ -56,16 +56,17 @@ const PRICE_BY_PASSENGERS = {
     elTotal.textContent = formatARS(total);
 
     // Mensaje persuasivo: comparar con el siguiente escalón (si existe)
-    const nextMorePeople = passengers + 1;
-    if (PRICE_BY_PASSENGERS[nextMorePeople]) {
-      const nextPrice = PRICE_BY_PASSENGERS[nextMorePeople];
-      const diff = pricePerPerson - nextPrice;
+  const nextMorePeople = passengers + 1;
+if (PRICE_BY_PASSENGERS[nextMorePeople]) {
+  const nextPrice = PRICE_BY_PASSENGERS[nextMorePeople];
+  const diff = pricePerPerson - nextPrice;
 
-      elMsg.textContent =
-        `Si se suma 1 pasajero más, baja ${formatARS(diff)} por persona (a ${formatARS(nextPrice)}).`;
-    } else {
-      elMsg.textContent = "Este es el mejor precio por persona disponible según el cupo actual.";
-    }
+  elMsg.textContent =
+    `Si se suma 1 pasajero más, baja ${formatARS(diff)} por persona (a ${formatARS(nextPrice)}).`;
+} else {
+  elMsg.textContent = "Este es el mejor precio por persona disponible.";
+}
+
 
     renderTable(passengers);
   }
