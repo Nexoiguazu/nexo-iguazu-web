@@ -311,5 +311,125 @@
   </a>
 
   <script src="script.js"></script>
+  <script>
+  // CONFIGURACIÓN (ajustá a tu negocio)
+  const CONFIG = {
+    currency: "ARS",
+    baseTotalPrice: 120000,      // precio total inicial (ejemplo)
+    discountPerPerson: 2500,     // cuánto baja el total por cada persona sumada
+    minTotalPrice: 85000,        // precio total mínimo
+    minPeople: 1,
+    maxPeople: 30,
+
+    // Hora límite (zona horaria del navegador del usuario).
+    // Si querés “hoy a las 18:00”:
+    deadlineHour: 18,
+    deadlineMinute: 0
+  };
+
+  // Estado (se guarda en localStorage para que no se reinicie al recargar)
+  const STORAGE_KEY = "dynamic_pricing_state_v1";
+  let state = loadState() || { people: 1 };
+
+  // Elementos
+  const elPeople = document.getElementById("peopleCount");
+  const elTime = document.getElementById("timeLeft");
+  const elTotal = document.getElementById("totalPrice");
+  const elPerPerson = document.getElementById("perPersonPrice");
+  const elStatus = document.getElementById("statusText");
+  const elDeadlineText = document.getElementById("deadlineText");
+  const elDiscountText = document.getElementById("discountText");
+  const elMinText = document.getElementById("minText");
+
+  document.getElementById("btnPlus").addEventListener("click", () => {
+    state.people = clamp(state.people + 1, CONFIG.minPeople, CONFIG.maxPeople);
+    saveState(state);
+    render();
+  });
+
+  document.getElementById("btnMinus").addEventListener("click", () => {
+    state.people = clamp(state.people - 1, CONFIG.minPeople, CONFIG.maxPeople);
+    saveState(state);
+    render();
+  });
+
+  function getTodayDeadline() {
+    const now = new Date();
+    const deadline = new Date(now);
+    deadline.setHours(CONFIG.deadlineHour, CONFIG.deadlineMinute, 0, 0);
+    return deadline;
+  }
+
+  function discountIsActive() {
+    const now = new Date();
+    return now.getTime() <= getTodayDeadline().getTime();
+  }
+
+  function computeTotalPrice(people) {
+    const active = discountIsActive();
+    const discount = active ? (people - 1) * CONFIG.discountPerPerson : 0;
+    const total = Math.max(CONFIG.baseTotalPrice - discount, CONFIG.minTotalPrice);
+    return { total, discount, active };
+  }
+
+  function render() {
+    const { total, discount, active } = computeTotalPrice(state.people);
+    const perPerson = Math.ceil(total / state.people);
+
+    elPeople.textContent = String(state.people);
+    elTotal.textContent = formatMoney(total);
+    elPerPerson.textContent = `(${formatMoney(perPerson)} por persona)`;
+
+    const deadline = getTodayDeadline();
+    elDeadlineText.textContent = deadline.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    elDiscountText.textContent = formatMoney(CONFIG.discountPerPerson);
+    elMinText.textContent = formatMoney(CONFIG.minTotalPrice);
+
+    if (active) {
+      elStatus.textContent = discount > 0
+        ? `Descuento aplicado: -${formatMoney(discount)}`
+        : "Sumá personas para activar descuento.";
+    } else {
+      elStatus.textContent = "Ventana de descuento cerrada. Se mantiene el precio base o mínimo según corresponda.";
+    }
+  }
+
+  function tick() {
+    const now = new Date();
+    const deadline = getTodayDeadline();
+    const ms = deadline.getTime() - now.getTime();
+
+    if (ms <= 0) {
+      elTime.textContent = "00:00:00";
+      render(); // para actualizar estado de ventana cerrada
+      return;
+    }
+
+    const h = Math.floor(ms / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
+    elTime.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    requestAnimationFrame(() => setTimeout(tick, 250)); // suave sin consumir demasiado
+  }
+
+  function formatMoney(amount) {
+    return new Intl.NumberFormat("es-AR", { style: "currency", currency: CONFIG.currency, maximumFractionDigits: 0 }).format(amount);
+  }
+
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return null; }
+  }
+  function saveState(next) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch {}
+  }
+
+  // Init
+  render();
+  tick();
+</script>
+
 </body>
 </html>
