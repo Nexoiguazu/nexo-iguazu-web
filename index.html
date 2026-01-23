@@ -73,7 +73,7 @@
     </section>
 
     <section id="diferencial" class="section">
-      <h2>🧠 Nuestro diferencial</h2>
+      <h2> Nuestro diferencial</h2>
       <div class="grid2">
         <div class="panel">
           <h3>Atención humana y coordinación real</h3>
@@ -85,14 +85,14 @@
         <div class="panel">
           <h3>Lo que vas a notar</h3>
           <ul class="badges">
-            <li>✨ Atención humana</li>
-            <li>✨ Organización real</li>
-            <li>✨ Coordinación simple</li>
-            <li>✨ Propuestas armadas</li>
-            <li>✨ Experiencias integradas</li>
-            <li>✨ Diseño de recorridos</li>
-            <li>✨ Enfoque emocional del viaje</li>
-            <li>✨ Relación directa con el huésped</li>
+            <li> Atención humana</li>
+            <li> Organización real</li>
+            <li> Coordinación simple</li>
+            <li> Propuestas armadas</li>
+            <li> Experiencias integradas</li>
+            <li> Diseño de recorridos</li>
+            <li> Enfoque emocional del viaje</li>
+            <li> Relación directa con el huésped</li>
           </ul>
         </div>
       </div>
@@ -111,7 +111,7 @@
     </section>
 
     <section id="experiencias" class="section">
-      <h2>💫 Propuestas armadas</h2>
+      <h2> Propuestas armadas</h2>
       <p class="sub">
         Paseos guiados cuidadosamente diseñados, combinando <strong>naturaleza</strong>, <strong>cultura</strong>, <strong>gastronomía</strong> y <strong>compras</strong>.
         Coordinamos horarios, traslados y recomendaciones para que <strong>no te preocupes por nada</strong>.
@@ -161,6 +161,39 @@
             <a class="btn-link" href="#contacto">Consultar</a>
           </div>
         </article>
+        <section class="pricing-widget" id="pricing">
+  <h2>Precio dinámico por grupo</h2>
+
+  <div class="price-cards">
+    <div class="card">
+      <div class="label">Personas sumadas</div>
+      <div class="value" id="peopleCount">1</div>
+      <div class="actions">
+        <button id="btnMinus" type="button">-</button>
+        <button id="btnPlus" type="button">+</button>
+      </div>
+      <div class="hint">Sumá gente para bajar el precio.</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Tiempo restante</div>
+      <div class="value" id="timeLeft">--:--:--</div>
+      <div class="hint">El descuento aplica hasta la hora límite.</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Precio total actual</div>
+      <div class="value" id="totalPrice">$0</div>
+      <div class="subvalue" id="perPersonPrice">($0 por persona)</div>
+      <div class="hint" id="statusText"></div>
+    </div>
+  </div>
+
+  <div class="rules">
+    <p><strong>Regla:</strong> hasta las <span id="deadlineText"></span>, por cada persona que se suma el precio total baja <span id="discountText"></span> (hasta un mínimo de <span id="minText"></span>).</p>
+  </div>
+</section>
+
 
         <article class="card">
           <h3>Compras y gastronomía</h3>
