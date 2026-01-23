@@ -25,6 +25,16 @@ body{
     radial-gradient(1200px 700px at 80% 0%, rgba(43,123,255,0.18), transparent 55%),
     linear-gradient(180deg, var(--bg), var(--bg2));
 }
+.pricing-widget { padding: 32px 16px; max-width: 980px; margin: 0 auto; }
+.price-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.card { border: 1px solid rgba(0,0,0,.12); border-radius: 14px; padding: 16px; background: #fff; }
+.label { font-size: 14px; opacity: .7; margin-bottom: 8px; }
+.value { font-size: 32px; font-weight: 700; line-height: 1.1; }
+.subvalue { margin-top: 6px; font-size: 14px; opacity: .8; }
+.hint { margin-top: 10px; font-size: 13px; opacity: .75; }
+.actions { display: flex; gap: 10px; margin-top: 10px; }
+.actions button { width: 44px; height: 38px; border-radius: 10px; border: 1px solid rgba(0,0,0,.15); background: #f7f7f7; cursor: pointer; font-size: 18px; }
+.rules { margin-top: 14px; font-size: 14px; opacity: .9; }
 
 /* Topbar */
 .topbar{
