@@ -26,6 +26,44 @@
       <a href="#contacto" class="nav__cta">Contactar</a>
     </nav>
   </header>
+<section class="price-system" id="precios">
+  <h2>Precio flexible según cantidad de pasajeros</h2>
+  <p class="ps-sub">Mientras más son, menos paga cada uno. Elegí cuántos pasajeros serían:</p>
+
+  <div class="ps-grid">
+    <div class="ps-card">
+      <label for="passengers" class="ps-label">Pasajeros</label>
+      <select id="passengers" class="ps-select">
+        <option value="11">11</option>
+        <option value="10">10</option>
+        <option value="9">9</option>
+        <option value="8">8</option>
+        <option value="7">7</option>
+      </select>
+
+      <div class="ps-note" id="psMessage"></div>
+    </div>
+
+    <div class="ps-card ps-results">
+      <div class="ps-row">
+        <span class="ps-k">Precio por persona</span>
+        <span class="ps-v" id="pricePerPerson">$0</span>
+      </div>
+
+      <div class="ps-row">
+        <span class="ps-k">Total estimado (grupo)</span>
+        <span class="ps-v" id="totalGroup">$0</span>
+      </div>
+
+      <div class="ps-divider"></div>
+
+      <div class="ps-small">
+        Referencia de cupos:
+        <div class="ps-table" id="psTable"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <main class="container">
     <section class="hero">
