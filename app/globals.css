@@ -123,3 +123,11 @@
     @apply bg-background text-foreground;
   }
 }
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: clip;
+}
