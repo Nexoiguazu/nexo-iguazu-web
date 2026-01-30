@@ -34,3 +34,8 @@ export default function GaleriaDetalle({ params }: { params: { id: string } }) {
     </main>
   )
 }
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return ["argentina", "brasil", "compras", "iryapu", "itaipu", "mbocay"].map((id) => ({ id }))
+}
