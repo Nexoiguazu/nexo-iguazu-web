@@ -1,5 +1,5 @@
 "use client"
-
+import WeatherCard from "@/components/WeatherCard"
 import FallbackImg from "@/components/FallbackImg"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -20,6 +20,7 @@ import {
   Route,
   Compass,
   MessageCircle,
+  Car,
 } from "lucide-react"
 
 type InfoCard = {
@@ -132,99 +133,108 @@ function InfoCards() {
 }
 
 export default function HomePage() {
-  const whatsappLink = "https://wa.me/543757558723"
+  const excursionsPhone = "543757558723" // Excursiones
+const remisPhone = "543757508950"      // Remis (tu otro número)
 
-  const excursionsInternational = [
-    {
-      icon: Droplets,
-      title: "Cataratas del Iguazú – Lado Argentino",
-      price: "$32.000 por persona",
-      duration: "Día completo (aprox. 6–9 h según ritmo)",
-      includes: [
-        "Traslado ida y vuelta (opcional según modalidad)",
-        "Coordinación permanente",
-        "Tiempo libre para recorrer los circuitos",
-        "Acompañamiento general",
-      ],
-      ideal: "Primera visita, naturaleza y fotografía.",
-      galleryId: "galeria-argentina",
-      officialLinks: [
-        { label: "Sitio oficial", href: "https://iguazuargentina.com/" },
-        { label: "Tickets/planificación", href: "https://iguazuargentina.com/planifica-tu-visita/" },
-      ],
-    },
-    {
-      icon: Compass,
-      title: "Cataratas Brasil + Parque das Aves",
-      price: "Paquete completo: $40.000 por persona",
-      duration: "Día completo (4-6 h)",
-      notes: [
-        "Modalidades disponibles:",
-        "✔️ Todo junto (en el día o según itinerario)",
-        "✔️ Excursiones individuales (consultar precios por separado)",
-      ],
-      includes: [
-        "Traslado internacional",
-        "Coordinación y tiempos organizados",
-        "Visita panorámica a Cataratas del lado brasileño",
-        "Parque das Aves",
-        "AquaFoz (según modalidad)",
-      ],
-      ideal: "Experiencia completa en Brasil.",
-      galleryId: "galeria-brasil",
-      officialLinks: [
-        { label: "Cataratas BR", href: "https://cataratasdoiguacu.com.br/" },
-        { label: "Tickets Cataratas BR", href: "https://tickets.cataratasdoiguacu.com.br/" },
-        { label: "Parque das Aves", href: "https://parquedasaves.com.br/" },
-      ],
-    },
-    {
-      icon: Sparkles,
-      title: "Represa de ITAIPU",
-      price: "$",
-      duration: "Medio día (4–6 h)",
-      includes: [
-        "Traslado internacional",
-        "Visita guiada (según opción disponible)",
-        "Recorrido por una de las mayores obras de ingeniería del mundo",
-      ],
-      ideal: "Turismo cultural y tecnológico.",
-      galleryId: "galeria-itaipu",
-      officialLinks: [
-        { label: "Itaipú (visitas)", href: "https://www.itaipu.gov.br/visitas/como-visitar-itaipu" },
-        { label: "Turismo Itaipú", href: "https://turismoitaipu.com.br/" },
-      ],
-    },
-    {
-  icon: Route,
-  title: "Compras en Paraguay — Shopping + Auto con espera",
-  price: "$34.000 por persona",
-  duration: "3 h (auto en espera)",
-  notes: [
-    "Modalidad:",
-    "✔️ Te llevamos al shopping que elijas (zona Foz/Puerto)",
-    "✔️ 3 horas de espera con el coche",
-    "✔️ Ideal para compras puntuales y sin complicaciones",
-    "App https://comprasparaguay.com.ar/: verificás en qué shopping está lo que necesitás y vas directo",
-    "Encargos Paraguay (--): si no hay tiempo, coordinamos con gente que trae productos",
-  ],
+const whatsappMessage =
+  "Hola! 👋 Quiero info y precios de las excursiones de Nexo Iguazú. ¿Me ayudás?"
+
+const remisMessage =
+  "Hola! 🚗 Quiero pedir un remise/transfer. ¿Me decís disponibilidad, precio y tiempo de espera? Origen: ___  Destino: ___"
+
+const whatsappLink = `https://wa.me/${excursionsPhone}?text=${encodeURIComponent(whatsappMessage)}`
+const remisLink = `https://wa.me/${remisPhone}?text=${encodeURIComponent(remisMessage)}`
+  const excursionesInternational = [
+ {
+  icon: Droplets,
+  title: "Cataratas del Iguazú – Lado Argentino",
+  price: "Desde $32.000 por persona (mín. 10 pax) — 4 a 9 pax: consultar",
+  duration: "Día completo (aprox. 6–9 h según ritmo)",
   includes: [
-    "Traslado ida y vuelta",
-    "3 horas de espera del vehículo",
-    "Coordinación",
+    "Traslado ida y vuelta (opcional según modalidad)",
+    "Coordinación y tiempos organizados con 24hs de anticipación",
+    "Tiempo libre para recorrer los circuitos",
+    "Acompañamiento general con guías profecionales del Parque",
   ],
-  ideal: "Compras rápidas con movilidad privada y guía de dónde conviene ir.",
-  galleryId: "galeria-compras-no-paraguay",
+  ideal: "Primera visita, naturaleza y fotografía.",
+  galleryId: "galeria-argentina",
   officialLinks: [
-    { label: "Web https://comprasparaguay.com.ar/", href: "#PONER_LINK_APP" },
-    { label: "Encargos FL IMPORT", href: "3757" },
-    { label: "Encargos Paraguay (link 2)", href: "3757" },
+    { label: "Sitio oficial", href: "https://iguazuargentina.com/" },
+    {
+      label: "Tickets/planificación",
+      href: "https://iguazuargentina.com/planifica-tu-visita/",
+    },
   ],
 },
+  {
+    icon: Compass,
+    title: "Cataratas Brasil + Parque das Aves",
+    price: "Paquete completo: $40.000 por persona",
+    duration: "Día completo (4-6 h)",
+    notes: [
+      "Modalidades disponibles:",
+      "✔️ Todo junto (en el día o según itinerario)",
+      "✔️ Excursiones individuales (consultar precios por separado)",
+    ],
+    includes: [
+      "Traslado internacional",
+      "Coordinación y tiempos organizados",
+      "Visita panorámica a Cataratas del lado brasileño",
+      "Parque das Aves",
+      "AquaFoz (según modalidad)",
+    ],
+    ideal: "Experiencia completa en Brasil.",
+    galleryId: "galeria-brasil",
+    officialLinks: [
+      { label: "Cataratas BR", href: "https://cataratasdoiguacu.com.br/" },
+      { label: "Tickets Cataratas BR", href: "https://tickets.cataratasdoiguacu.com.br/" },
+      { label: "Parque das Aves", href: "https://parquedasaves.com.br/" },
+    ],
+  },
+  {
+    icon: Sparkles,
+    title: "Represa de ITAIPU",
+    price: "$",
+    duration: "Medio día (4–6 h)",
+    includes: [
+      "Traslado internacional",
+      "Visita guiada (según opción disponible)",
+      "Recorrido por una de las mayores obras de ingeniería del mundo",
+    ],
+    ideal: "Turismo cultural y tecnológico.",
+    galleryId: "galeria-itaipu",
+    officialLinks: [
+      { label: "Itaipú (visitas)", href: "https://www.itaipu.gov.br/visitas/como-visitar-itaipu" },
+      { label: "Turismo Itaipú", href: "https://turismoitaipu.com.br/" },
+    ],
+  },
+  {
+    icon: Route,
+    title: "Compras en Paraguay — Shopping + Auto con espera",
+    price: "$34.000 por persona",
+    duration: "3 h (auto en espera)",
+    notes: [
+      "Modalidad:",
+      "✔️ Te llevamos al shopping que elijas (zona Foz/Puerto)",
+      "✔️ 3 horas de espera con el coche",
+      "✔️ Ideal para compras puntuales y sin complicaciones",
+      "App https://comprasparaguay.com.ar/: verificás en qué shopping está lo que necesitás y vas directo",
+      "Encargos Paraguay (--): si no hay tiempo, coordinamos con gente que trae productos",
+    ],
+    includes: ["Traslado ida y vuelta", "3 horas de espera del vehículo", "Coordinación"],
+    ideal: "Compras rápidas con movilidad privada y guía de dónde conviene ir.",
+    galleryId: "galeria-compras-no-paraguay",
+    officialLinks: [
+      { label: "Web Compras Paraguay", href: "https://comprasparaguay.com.ar/" },
+      // OJO: si esto es teléfono, no va como href: "3757"
+      // Usá tel: o wa.me (te lo dejo abajo)
+      { label: "Encargos FL IMPORT", href: "tel:+543757XXXXXXX" },
+      { label: "Encargos Paraguay (link 2)", href: "tel:+543757XXXXXXX" },
+    ],
+  },
+]
 
-  ]
-
-  const excursionsZona = [
+  const excursionesZona = [
     {
       icon: Droplets,
       title: "Salto del Turista",
@@ -340,7 +350,7 @@ export default function HomePage() {
     { title: "Hito Tres Fronteras (atardecer)", why: "Fotos aseguradas y paseo nocturno fácil.", how: "Se puede ir en transfer o taxi; recomendamos horario de puesta de sol." },
   ]
 
-  const allExcursions = [...excursionsInternational, ...excursionsZona]
+  const allExcursions = [...excursionesInternational, ...excursionesZona]
 
   const wa = (name: string) =>
     `${whatsappLink}?text=${encodeURIComponent(`Hola! Quiero consultar por la excursión: ${name}`)}`
@@ -423,7 +433,7 @@ export default function HomePage() {
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Consultar por WhatsApp
                 </a>
-              </Button>
+              </Button> 
               <Button
                 size="lg"
                 variant="outline"
@@ -435,7 +445,12 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> 
+      <section className="py-8 bg-[#0b1f3a]">
+  <div className="mx-auto max-w-6xl px-4">
+    <WeatherCard />
+  </div>
+</section>
 
       {/* Excursiones */}
       <section id="excursiones" className="py-20 px-4 bg-background">
@@ -446,7 +461,7 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-6">Experiencias imperdibles</h2>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {excursionsInternational.map((item, i) => {
+              {excursionesInternational.map((item, i) => {
                 const Icon = item.icon
                 return (
                   <Card key={i} className="bg-white border border-[#1a365d]/10 hover:shadow-lg transition-shadow">
@@ -479,27 +494,32 @@ export default function HomePage() {
 
                       <p className="text-sm italic text-[#1a365d]/70 mb-4">Ideal para: {item.ideal}</p>
 
-                      {item.officialLinks && item.officialLinks.filter((l: any) => !!l.href).length > 0 ? (
-                        <div className="mb-4">
-                          <p className="text-sm font-medium text-[#1a365d] mb-2">Fuentes / links oficiales</p>
-                          <div className="flex flex-wrap gap-3">
-                            {item.officialLinks
-                              .filter((l: any) => !!l.href)
-                              .map((l: any, idx: number) => (
-                                <a
-                                  key={idx}
-                                  href={l.href}
-                                  target={l.href.startsWith("http") ? "_blank" : undefined}
-                                  rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                                  className="text-sm text-[#1a365d] underline underline-offset-4 hover:text-[#0f2440]"
-                                >
-                                  {l.label}
-                                </a>
-                              ))}
-                          </div>
-                        </div>
-                      ) : null}
+                     {item.officialLinks?.some((l: any) => !!l.href) ? (
+  <div className="mt-5">
+    <div className="flex items-center gap-3">
+      <p className="text-xs font-semibold text-[#d4a84b] uppercase tracking-wide">
+        Fuentes / links oficiales
+      </p>
+      <div className="h-px flex-1 bg-[#d4a84b]/30" />
+    </div>
 
+    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+      {item.officialLinks
+        .filter((l: any) => !!l.href)
+        .map((l: any, idx: number) => (
+          <a
+            key={idx}
+            href={l.href}
+            target={l.href.startsWith("http") ? "_blank" : undefined}
+            rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+            className="text-sm text-[#1a365d] underline underline-offset-4 hover:text-[#d4a84b]"
+          >
+            {l.label}
+          </a>
+        ))}
+    </div>
+  </div>
+) : null}
                       <div className="flex gap-3">
                         <Button variant="outline" asChild>
                           <a href={`#${item.galleryId}`}>Ver galería</a>
@@ -522,7 +542,7 @@ export default function HomePage() {
             <p className="text-[#7cc5e3] font-medium mb-2">Paseos en la Zona</p>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {excursionsZona.map((item, i) => {
+              {excursionesZona.map((item, i) => {
                 const Icon = item.icon
                 return (
                   <Card key={i} className="bg-white border border-[#1a365d]/10 hover:shadow-lg transition-shadow">
@@ -887,45 +907,18 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* Boton flotante WhatsApp */}
-      <a
-        href={whatsappLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-        aria-label="Contactar por WhatsApp"
-      >
-        <MessageCircle className="h-7 w-7" />
-      </a>
-
-      {/* Burbuja Clima */}
-      <div className="fixed bottom-24 left-6 z-[60]">
-        <details className="group">
-          <summary className="list-none cursor-pointer select-none">
-            <div className="flex items-center gap-2 rounded-full bg-white/95 backdrop-blur px-4 py-2 shadow-lg border border-black/10 hover:shadow-xl transition">
-              <span className="text-sm font-semibold text-[#1a365d]">Clima</span>
-              <span className="text-xs text-[#1a365d]/60">7 días</span>
-            </div>
-          </summary>
-
-          <div className="mt-3 w-[320px] max-w-[90vw] overflow-hidden rounded-2xl bg-white shadow-xl border border-black/10">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-black/10">
-              <p className="font-semibold text-[#1a365d]">Puerto Iguazú</p>
-              <p className="text-xs text-[#1a365d]/60">Pronóstico 7 días</p>
-            </div>
-
-            <div className="p-2">
-              <iframe
-                src="https://forecast7.com/es/n25d60n54d57/puerto-iguazu/"
-                width="100%"
-                height="220"
-                loading="lazy"
-                style={{ border: 0 }}
-              />
-            </div>
-          </div>
-        </details>
-      </div>
-    </div>
+{/* Botón flotante Remis */}
+<a
+  href={remisLink}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-[#d4a84b] text-[#1a365d] flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+  aria-label="Pedir remis por WhatsApp"
+>
+  <Car className="h-7 w-7" />
+</a>
+</div>        
+      
+    
   )
 }
