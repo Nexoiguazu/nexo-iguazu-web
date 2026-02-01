@@ -196,31 +196,32 @@ export default function HomePage() {
       ],
     },
     {
-      icon: Route,
-      title: "Compras en Paraguay + Duty Free",
-      price: "$32.000 por persona",
-      duration: "Día completo (6–9 h)",
-      notes: ["Modalidades:", "✔️ Compras en Paraguay", "✔️ Duty Free", "✔️ Ambas opciones juntas o por separado"],
-      includes: ["Traslado internacional", "Tiempo libre para compras", "Coordinación general"],
-      ideal: "Compras, electrónica y perfumería.",
-      galleryId: "galeria-compras",
-      officialLinks: [{ label: "Requisitos de cruce", href: "#info" }],
-    },
-    {
-      icon: Calendar,
-      title: "Rafain – Restaurante con Show",
-      price: "$20.000 por persona",
-      duration: "Noche (3–4 h)",
-      notes: ["Información adjunta:", "Cena show internacional", "Espectáculo artístico de primer nivel", "Danzas típicas de Latinoamérica", "Ambiente climatizado"],
-      includes: [
-        "Traslado ida y vuelta",
-        "Coordinación",
-        "Entrada al show (Cena se abona en el lugar, salvo promoción especial)",
-      ],
-      ideal: "Noche diferente y experiencia cultural.",
-      galleryId: "galeria-rafain",
-      officialLinks: [],
-    },
+  icon: Route,
+  title: "Compras en Paraguay — Shopping + Auto con espera",
+  price: "$34.000 por persona",
+  duration: "3 h (auto en espera)",
+  notes: [
+    "Modalidad:",
+    "✔️ Te llevamos al shopping que elijas (zona Foz/Puerto)",
+    "✔️ 3 horas de espera con el coche",
+    "✔️ Ideal para compras puntuales y sin complicaciones",
+    "App https://comprasparaguay.com.ar/: verificás en qué shopping está lo que necesitás y vas directo",
+    "Encargos Paraguay (--): si no hay tiempo, coordinamos con gente que trae productos",
+  ],
+  includes: [
+    "Traslado ida y vuelta",
+    "3 horas de espera del vehículo",
+    "Coordinación",
+  ],
+  ideal: "Compras rápidas con movilidad privada y guía de dónde conviene ir.",
+  galleryId: "galeria-compras-no-paraguay",
+  officialLinks: [
+    { label: "Web https://comprasparaguay.com.ar/", href: "#PONER_LINK_APP" },
+    { label: "Encargos FL IMPORT", href: "3757" },
+    { label: "Encargos Paraguay (link 2)", href: "3757" },
+  ],
+},
+
   ]
 
   const excursionsZona = [

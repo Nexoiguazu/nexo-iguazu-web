@@ -1,9 +1,9 @@
-/** @type {import('next').NextConfig} */
+// next.config.mjs
 const nextConfig = {
   output: "export",
+  images: { unoptimized: true },
   basePath: "",
   assetPrefix: "",
-  images: { unoptimized: true },
-};
+}
 
-export default nextConfig;
+export default nextConfig
