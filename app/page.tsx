@@ -392,33 +392,43 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* Mobile menu panel */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-white/10 bg-[#1a365d]/98">
-            <div className="px-4 py-4 flex flex-col gap-2">
-              {navItems.map((it) => (
-                <a
-                  key={it.href}
-                  href={it.href}
-                  onClick={closeMobileMenu}
-                  className="rounded-lg px-3 py-2 text-white/85 hover:text-white hover:bg-white/10 transition"
-                >
-                  {it.label}
-                </a>
-              ))}
+{mobileMenuOpen && (
+  <>
+    {/* Overlay: tocás fuera y cierra */}
+    <button
+      type="button"
+      aria-label="Cerrar menú"
+      className="fixed inset-0 z-[60] bg-black/40 md:hidden"
+      onClick={closeMobileMenu}
+    />
 
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={closeMobileMenu}
-                className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#d4a84b] px-4 py-2 text-[#0b1b2b] font-semibold hover:opacity-90 transition"
-              >
-                Consultar por WhatsApp
-              </a>
-            </div>
-          </div>
-        )}
+    {/* Panel del menú */}
+    <div className="md:hidden border-t border-white/10 bg-[#1a365d]/98 relative z-[70]">
+      <div className="px-4 py-4 flex flex-col gap-2">
+        {navItems.map((it) => (
+          <a
+            key={it.href}
+            href={it.href}
+            onClick={closeMobileMenu}
+            className="rounded-lg px-3 py-3 text-white/85 hover:text-white hover:bg-white/10"
+          >
+            {it.label}
+          </a>
+        ))}
+
+        <a
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={closeMobileMenu}
+          className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#d4a84b] px-4 py-3 font-semibold text-[#1a365d] hover:brightness-95"
+        >
+          Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </>
+)}
       </header>
 
       {/* Hero con video */}
