@@ -40,12 +40,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased">
+    <body className="font-sans antialiased bg-[#0b1f3a] overflow-x-clip">
         <SiteHeader />
 
         {/* evita que el contenido quede debajo del header fijo (h-20) */}
-        <div className="pt-20">{children}</div>
-
+        <div className="pt-16 md:pt-20">{children}</div>
         <Analytics />
       </body>
     </html>

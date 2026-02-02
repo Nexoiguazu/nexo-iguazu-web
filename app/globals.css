@@ -125,9 +125,7 @@
 }
 html, body {
   width: 100%;
-  overflow-x: hidden;
-}
-
-body {
-  overflow-x: clip;
+  max-width: 100%;
+  overflow-x: clip; /* una sola regla */
+  background: hsl(var(--background)); /* mismo fondo que Tailwind */
 }

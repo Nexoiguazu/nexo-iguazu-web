@@ -1,5 +1,6 @@
 "use client"
 
+import IguazuCarousel from "@/components/IguazuCarousel"
 import { useState } from "react"
 import WeatherCard from "@/components/WeatherCard"
 import FallbackImg from "@/components/FallbackImg"
@@ -71,9 +72,7 @@ function InfoCards() {
             key={idx}
             className={[
               "rounded-2xl border shadow-sm p-6",
-              c.highlight
-                ? "bg-[#0b2a55] border-white/10 text-white"
-                : "bg-white border-slate-200 text-slate-900",
+              c.highlight ? "bg-[#0b2a55] border-white/10 text-white" : "bg-white border-slate-200 text-slate-900",
             ].join(" ")}
           >
             <div className="flex items-start justify-between gap-3">
@@ -91,12 +90,7 @@ function InfoCards() {
               )}
             </div>
 
-            <ul
-              className={[
-                "mt-4 space-y-2 text-sm leading-relaxed",
-                c.highlight ? "text-white/90" : "text-slate-600",
-              ].join(" ")}
-            >
+            <ul className={["mt-4 space-y-2 text-sm leading-relaxed", c.highlight ? "text-white/90" : "text-slate-600"].join(" ")}>
               {c.bullets.map((b, i) => (
                 <li key={i} className="flex gap-2">
                   <span className={c.highlight ? "text-white/80" : "text-slate-400"}>•</span>
@@ -105,11 +99,7 @@ function InfoCards() {
               ))}
             </ul>
 
-            {c.note && (
-              <p className={["mt-4 text-xs", c.highlight ? "text-white/70" : "text-slate-500"].join(" ")}>
-                {c.note}
-              </p>
-            )}
+            {c.note && <p className={["mt-4 text-xs", c.highlight ? "text-white/70" : "text-slate-500"].join(" ")}>{c.note}</p>}
 
             {c.cta && (
               <div className="mt-5">
@@ -119,9 +109,7 @@ function InfoCards() {
                   rel="noreferrer"
                   className={[
                     "inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold",
-                    c.highlight
-                      ? "bg-[#d4a84b] text-[#0b2a55] hover:opacity-90"
-                      : "bg-slate-900 text-white hover:opacity-90",
+                    c.highlight ? "bg-[#d4a84b] text-[#0b2a55] hover:opacity-90" : "bg-slate-900 text-white hover:opacity-90",
                   ].join(" ")}
                 >
                   {c.cta.label}
@@ -164,8 +152,7 @@ export default function HomePage() {
   const remisPhone = "543757508950" // Remis
 
   const whatsappMessage = "¡Hola! 👋 Quiero info y precios de las excursiones de Nexo Iguazú. ¿Me ayudás?"
-  const remisMessage =
-    "¡Hola! 🚗 Quiero pedir un remis/transfer. ¿Me decís disponibilidad, precio y tiempo de espera? Origen: ___  Destino: ___"
+  const remisMessage = "¡Hola! 🚗 Quiero pedir un remis/transfer. ¿Me decís disponibilidad, precio y tiempo de espera? Origen: ___  Destino: ___"
 
   const whatsappLink = buildWhatsAppUrl(excursionsPhone, whatsappMessage)
   const remisLink = buildWhatsAppUrl(remisPhone, remisMessage)
@@ -193,11 +180,7 @@ export default function HomePage() {
       title: "Cataratas Brasil + Parque das Aves",
       price: "Paquete completo: $40.000 por persona",
       duration: "Día completo (4–6 h)",
-      notes: [
-        "Modalidades disponibles:",
-        "✔️ Todo junto (en el día o según itinerario).",
-        "✔️ Excursiones individuales (consultar precios por separado).",
-      ],
+      notes: ["Modalidades disponibles:", "✔️ Todo junto (en el día o según itinerario).", "✔️ Excursiones individuales (consultar precios por separado)."],
       includes: [
         "Traslado internacional.",
         "Coordinación y tiempos organizados.",
@@ -217,11 +200,7 @@ export default function HomePage() {
       title: "Represa de Itaipú",
       price: "A confirmar",
       duration: "Medio día (4–6 h)",
-      includes: [
-        "Traslado internacional.",
-        "Visita guiada (según opción disponible).",
-        "Recorrido por una de las mayores obras de ingeniería del mundo.",
-      ],
+      includes: ["Traslado internacional.", "Visita guiada (según opción disponible).", "Recorrido por una de las mayores obras de ingeniería del mundo."],
       ideal: "Turismo cultural y tecnológico.",
       officialLinks: [
         { label: "Itaipú (visitas)", href: "https://www.itaipu.gov.br/visitas/como-visitar-itaipu" },
@@ -248,90 +227,32 @@ export default function HomePage() {
   ]
 
   const excursionesZona: Excursion[] = [
-    {
-      icon: Droplets,
-      title: "Salto del Turista",
-      price: "$20.000 por persona",
-      duration: "Medio día (3–5 h)",
-      includes: ["Traslado.", "Acceso al salto.", "Tiempo para caminatas y fotos."],
-      ideal: "Naturaleza y tranquilidad.",
-    },
-    {
-      icon: Droplets,
-      title: "Salto Mbocay",
-      price: "$15.000 por persona",
-      duration: "Medio día (2–4 h)",
-      includes: ["Traslado.", "Visita al salto.", "Tiempo libre."],
-      ideal: "Escapada corta y económica.",
-    },
-    {
-      icon: Heart,
-      title: "Minas de Wanda",
-      price: "$25.000 por persona",
-      duration: "Medio día (4–6 h)",
-      includes: ["Traslado.", "Visita guiada a las minas.", "Explicación geológica y cultural."],
-      ideal: "Familias y turismo educativo.",
-    },
-    {
-      icon: Sun,
-      title: "Paseo náutico",
-      price: "A confirmar",
-      duration: "2–3 h",
-      includes: ["Navegación por el río.", "Vistas panorámicas.", "Experiencia relajada."],
-      ideal: "Disfrutar del entorno desde el agua.",
-    },
+    { icon: Droplets, title: "Salto del Turista", price: "$20.000 por persona", duration: "Medio día (3–5 h)", includes: ["Traslado.", "Acceso al salto.", "Tiempo para caminatas y fotos."], ideal: "Naturaleza y tranquilidad." },
+    { icon: Droplets, title: "Salto Mbocay", price: "$15.000 por persona", duration: "Medio día (2–4 h)", includes: ["Traslado.", "Visita al salto.", "Tiempo libre."], ideal: "Escapada corta y económica." },
+    { icon: Heart, title: "Minas de Wanda", price: "$25.000 por persona", duration: "Medio día (4–6 h)", includes: ["Traslado.", "Visita guiada a las minas.", "Explicación geológica y cultural."], ideal: "Familias y turismo educativo." },
+    { icon: Sun, title: "Paseo náutico", price: "A confirmar", duration: "2–3 h", includes: ["Navegación por el río.", "Vistas panorámicas.", "Experiencia relajada."], ideal: "Disfrutar del entorno desde el agua." },
     {
       icon: Backpack,
       title: "Selva Iryapú – Comunidades originarias",
       price: "$20.000 por persona",
       duration: "2–4 h",
-      includes: [
-        "Traslado.",
-        "Caminatas por senderos selváticos.",
-        "Guías pertenecientes a comunidades originarias.",
-        "Experiencia cultural y natural auténtica.",
-      ],
+      includes: ["Traslado.", "Caminatas por senderos selváticos.", "Guías pertenecientes a comunidades originarias.", "Experiencia cultural y natural auténtica."],
       ideal: "Conexión con la naturaleza y la cultura local.",
     },
   ]
 
-  // Antes era "Joyas ocultas". Ahora: "Otras excursiones".
   const otrasExcursiones = [
-    {
-      title: "Güirá Oga (rescate de fauna)",
-      desc: "Visita distinta y educativa; ideal como plan B si llueve.",
-    },
-    {
-      title: "Jardín de los Picaflores",
-      desc: "Visita corta y fotogénica; ideal para la tarde.",
-    },
-    {
-      title: "La Aripuca",
-      desc: "Cultural + recorrido corto; buena opción con niños.",
-    },
-    {
-      title: "Hito Tres Fronteras (atardecer)",
-      desc: "Fotos aseguradas y paseo nocturno fácil.",
-    },
+    { title: "Güirá Oga (rescate de fauna)", desc: "Visita distinta y educativa; ideal como plan B si llueve." },
+    { title: "Jardín de los Picaflores", desc: "Visita corta y fotogénica; ideal para la tarde." },
+    { title: "La Aripuca", desc: "Cultural + recorrido corto; buena opción con niños." },
+    { title: "Hito Tres Fronteras (atardecer)", desc: "Fotos aseguradas y paseo nocturno fácil." },
   ]
 
   const movilidad = [
-    {
-      title: "Colectivo urbano (referencia)",
-      items: ["Tarifa sujeta a cambios: te confirmamos al coordinar.", "Consejo: consultá por tarjeta local según empresa."],
-    },
-    {
-      title: "Bus a Cataratas (referencia)",
-      items: [
-        "Salida desde el centro / terminal (según operador).",
-        "Ideal si buscás opción económica; en temporada alta puede haber espera.",
-      ],
-    },
+    { title: "Colectivo urbano (referencia)", items: ["Tarifa sujeta a cambios: te confirmamos al coordinar.", "Consejo: consultá por tarjeta local según empresa."] },
+    { title: "Bus a Cataratas (referencia)", items: ["Salida desde el centro / terminal (según operador).", "Ideal si buscás opción económica; en temporada alta puede haber espera."] },
     { title: "Aeropuerto (IGR) (referencia)", items: ["Si llegás con valijas o en horarios ajustados, conviene un transfer coordinado."] },
-    {
-      title: "Cruce a Brasil / Paraguay",
-      items: ["Documento vigente (DNI/pasaporte según el caso).", "En días pico, planificamos horarios para evitar demoras."],
-    },
+    { title: "Cruce a Brasil / Paraguay", items: ["Documento vigente (DNI/pasaporte según el caso).", "En días pico, planificamos horarios para evitar demoras."] },
   ]
 
   const navItems = [
@@ -347,11 +268,11 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-20 overflow-x-hidden">
+    <div className="min-h-screen bg-[#0b1f3a] pt-20 overflow-x-hidden">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#1a365d]/95 backdrop-blur-sm border-b h-20 overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 h-full flex items-center justify-between overflow-x-hidden overflow-y-visible">
-          <a href="#" className="flex items-center gap-2 h-full">
+          <a href="#" className="flex items-center gap-2 h-full" onClick={closeMobileMenu}>
             <FallbackImg
               src="/images/mariposa-logo.png"
               alt="NEXO IGUAZÚ"
@@ -392,54 +313,62 @@ export default function HomePage() {
           </button>
         </div>
 
-{mobileMenuOpen && (
-  <>
-    {/* Overlay: tocás fuera y cierra */}
-    <button
-      type="button"
-      aria-label="Cerrar menú"
-      className="fixed inset-0 z-[60] bg-black/40 md:hidden"
-      onClick={closeMobileMenu}
-    />
+        {mobileMenuOpen && (
+          <>
+            {/* Overlay */}
+            <button
+              type="button"
+              aria-label="Cerrar menú"
+              className="fixed inset-0 z-[60] bg-black/40 md:hidden"
+              onClick={closeMobileMenu}
+            />
 
-    {/* Panel del menú */}
-    <div className="md:hidden border-t border-white/10 bg-[#1a365d]/98 relative z-[70]">
-      <div className="px-4 py-4 flex flex-col gap-2">
-        {navItems.map((it) => (
-          <a
-            key={it.href}
-            href={it.href}
-            onClick={closeMobileMenu}
-            className="rounded-lg px-3 py-3 text-white/85 hover:text-white hover:bg-white/10"
-          >
-            {it.label}
-          </a>
-        ))}
+            {/* Panel del menú (SIN carrusel) */}
+            <div className="md:hidden border-t border-white/10 bg-[#1a365d]/98 relative z-[70]">
+              <div className="px-4 py-4 flex flex-col gap-2">
+                {navItems.map((it) => (
+                  <a
+                    key={it.href}
+                    href={it.href}
+                    onClick={closeMobileMenu}
+                    className="rounded-lg px-3 py-3 text-white/85 hover:text-white hover:bg-white/10"
+                  >
+                    {it.label}
+                  </a>
+                ))}
 
-        <a
-          href={whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={closeMobileMenu}
-          className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#d4a84b] px-4 py-3 font-semibold text-[#1a365d] hover:brightness-95"
-        >
-          Consultar por WhatsApp
-        </a>
-      </div>
-    </div>
-  </>
-)}
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMobileMenu}
+                  className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#d4a84b] px-4 py-3 font-semibold text-[#1a365d] hover:brightness-95"
+                >
+                  Consultar por WhatsApp
+                </a>
+              </div>
+            </div>
+          </>
+        )}
       </header>
 
+      {/* ✅ Carrusel ARRIBA del hero (MÓVIL + DESKTOP) */}
+      <section className="bg-[#0b1f3a] border-b border-white/10">
+        <div className="mx-auto max-w-7xl px-4 py-4">
+          <div className="w-full">
+            <IguazuCarousel className="mt-6 shadow-lg" speedPx={60} count={50} />
+          </div>
+        </div>
+      </section>
       {/* Hero con video */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden">
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
           <source src="/videos/hero-iguazu.mp4" type="video/mp4" />
         </video>
 
         <div className="absolute inset-0 bg-[#1a365d]/70" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 py-32">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 md:py-28">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-bold text-[#d4a84b] leading-tight mb-4 text-balance">NEXO IGUAZÚ</h1>
             <p className="text-xl md:text-2xl text-[#7cc5e3] font-medium italic mb-6">Experiencias que dejan huella</p>
@@ -455,12 +384,7 @@ export default function HomePage() {
                 </a>
               </Button>
 
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-[#7cc5e3] text-[#7cc5e3] hover:bg-[#7cc5e3]/10 bg-transparent"
-                asChild
-              >
+              <Button size="lg" variant="outline" className="border-[#7cc5e3] text-[#7cc5e3] hover:bg-[#7cc5e3]/10 bg-transparent" asChild>
                 <a href="#excursiones">Ver excursiones</a>
               </Button>
             </div>
@@ -504,7 +428,7 @@ export default function HomePage() {
                       </p>
 
                       {item.notes && (
-                        <ul className="text-sm text-[#1a365d]/70 mb-3 space-y-1">
+                        <ul className="text-sm text-[#1a365d]/70 mb-3 space-y-1 max-w-full break-words">
                           {item.notes.map((n: string, idx: number) => (
                             <li key={idx}>{n}</li>
                           ))}
@@ -607,15 +531,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Otras excursiones (antes Joyas ocultas) */}
+      {/* Otras excursiones */}
       <section id="otras-excursiones" className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
             <p className="text-[#7cc5e3] font-medium mb-2">Más opciones</p>
             <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-4">Otras excursiones</h2>
-            <p className="text-[#1a365d]/70 max-w-3xl">
-              Alternativas cortas y buenas para sumar al itinerario (o como plan B si el clima no acompaña).
-            </p>
+            <p className="text-[#1a365d]/70 max-w-3xl">Alternativas cortas y buenas para sumar al itinerario (o como plan B si el clima no acompaña).</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -680,9 +602,7 @@ export default function HomePage() {
                   <Calendar className="h-5 w-5 text-[#d4a84b]" />
                   <h3 className="font-semibold text-[#1a365d]">Horarios y reservas</h3>
                 </div>
-                <p className="text-[#1a365d]/70 text-sm">
-                  Recomendamos salir temprano para aprovechar el día completo. Coordiná con anticipación en temporada alta.
-                </p>
+                <p className="text-[#1a365d]/70 text-sm">Recomendamos salir temprano para aprovechar el día completo. Coordiná con anticipación en temporada alta.</p>
               </CardContent>
             </Card>
 
@@ -692,9 +612,7 @@ export default function HomePage() {
                   <FileText className="h-5 w-5 text-[#d4a84b]" />
                   <h3 className="font-semibold text-[#1a365d]">Si cruzás a Brasil</h3>
                 </div>
-                <p className="text-[#1a365d]/70 text-sm">
-                  Tené a mano tu documento de identidad o pasaporte vigente. Te ayudamos con la coordinación del cruce.
-                </p>
+                <p className="text-[#1a365d]/70 text-sm">Tené a mano tu documento de identidad o pasaporte vigente. Te ayudamos con la coordinación del cruce.</p>
               </CardContent>
             </Card>
           </div>
@@ -786,13 +704,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
             <div className="flex items-center gap-3">
-              <FallbackImg
-                src="/images/mariposa-logo.png"
-                alt="NEXO IGUAZÚ"
-                className="h-20 w-auto"
-                fallbackSrc="/images/placeholder.png"
-                loading="lazy"
-              />
+              <FallbackImg src="/images/mariposa-logo.png" alt="NEXO IGUAZÚ" className="h-20 w-auto" fallbackSrc="/images/placeholder.png" loading="lazy" />
               <span className="text-xl font-semibold text-[#d4a84b]">NEXO IGUAZÚ</span>
             </div>
             <p className="text-[#d4a84b] italic text-center md:text-right">Experiencias que dejan huella</p>
