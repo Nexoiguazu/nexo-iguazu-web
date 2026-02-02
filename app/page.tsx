@@ -1,13 +1,12 @@
 "use client"
 
-import Link from "next/link"
+import { useState } from "react"
 import WeatherCard from "@/components/WeatherCard"
 import FallbackImg from "@/components/FallbackImg"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Droplets,
-  Users,
   Heart,
   Calendar,
   Phone,
@@ -17,11 +16,12 @@ import {
   Clock,
   FileText,
   Sparkles,
-  CheckCircle,
   Route,
   Compass,
   MessageCircle,
   Car,
+  Menu,
+  X,
 } from "lucide-react"
 
 type InfoCard = {
@@ -144,7 +144,6 @@ type Excursion = {
   duration: string
   includes: string[]
   ideal: string
-  galleryId: string
   notes?: string[]
   officialLinks?: OfficialLink[]
 }
@@ -159,6 +158,8 @@ function buildExcursionWhatsAppUrl(phone: string, excursionTitle: string) {
 }
 
 export default function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   const excursionsPhone = "543757558723" // Excursiones
   const remisPhone = "543757508950" // Remis
 
@@ -177,12 +178,11 @@ export default function HomePage() {
       duration: "Día completo (aprox. 6–9 h según ritmo)",
       includes: [
         "Traslado ida y vuelta (opcional según modalidad).",
-        "Coordinación y tiempos organizados con 24 hs de anticipación.",
+        "Coordinación y tiempos organizados con 24 h de anticipación.",
         "Tiempo libre para recorrer los circuitos.",
         "Acompañamiento general con guías profesionales del Parque.",
       ],
       ideal: "Primera visita, naturaleza y fotografía.",
-      galleryId: "argentina",
       officialLinks: [
         { label: "Sitio oficial", href: "https://iguazuargentina.com/" },
         { label: "Tickets/planificación", href: "https://iguazuargentina.com/planifica-tu-visita/" },
@@ -193,7 +193,11 @@ export default function HomePage() {
       title: "Cataratas Brasil + Parque das Aves",
       price: "Paquete completo: $40.000 por persona",
       duration: "Día completo (4–6 h)",
-      notes: ["Modalidades disponibles:", "✔️ Todo junto (en el día o según itinerario).", "✔️ Excursiones individuales (consultar precios por separado)."],
+      notes: [
+        "Modalidades disponibles:",
+        "✔️ Todo junto (en el día o según itinerario).",
+        "✔️ Excursiones individuales (consultar precios por separado).",
+      ],
       includes: [
         "Traslado internacional.",
         "Coordinación y tiempos organizados.",
@@ -202,7 +206,6 @@ export default function HomePage() {
         "AquaFoz (según modalidad).",
       ],
       ideal: "Experiencia completa en Brasil.",
-      galleryId: "brasil",
       officialLinks: [
         { label: "Cataratas BR", href: "https://cataratasdoiguacu.com.br/" },
         { label: "Tickets Cataratas BR", href: "https://tickets.cataratasdoiguacu.com.br/" },
@@ -220,7 +223,6 @@ export default function HomePage() {
         "Recorrido por una de las mayores obras de ingeniería del mundo.",
       ],
       ideal: "Turismo cultural y tecnológico.",
-      galleryId: "itaipu",
       officialLinks: [
         { label: "Itaipú (visitas)", href: "https://www.itaipu.gov.br/visitas/como-visitar-itaipu" },
         { label: "Turismo Itaipú", href: "https://turismoitaipu.com.br/" },
@@ -241,7 +243,6 @@ export default function HomePage() {
       ],
       includes: ["Traslado ida y vuelta.", "3 horas de espera del vehículo.", "Coordinación."],
       ideal: "Compras rápidas con movilidad privada y guía de dónde conviene ir.",
-      galleryId: "compras-paraguay",
       officialLinks: [{ label: "Web Compras Paraguay", href: "https://comprasparaguay.com.ar/" }],
     },
   ]
@@ -254,8 +255,6 @@ export default function HomePage() {
       duration: "Medio día (3–5 h)",
       includes: ["Traslado.", "Acceso al salto.", "Tiempo para caminatas y fotos."],
       ideal: "Naturaleza y tranquilidad.",
-      galleryId: "salto-turista",
-      officialLinks: [],
     },
     {
       icon: Droplets,
@@ -264,8 +263,6 @@ export default function HomePage() {
       duration: "Medio día (2–4 h)",
       includes: ["Traslado.", "Visita al salto.", "Tiempo libre."],
       ideal: "Escapada corta y económica.",
-      galleryId: "mbocay",
-      officialLinks: [],
     },
     {
       icon: Heart,
@@ -274,8 +271,6 @@ export default function HomePage() {
       duration: "Medio día (4–6 h)",
       includes: ["Traslado.", "Visita guiada a las minas.", "Explicación geológica y cultural."],
       ideal: "Familias y turismo educativo.",
-      galleryId: "wanda",
-      officialLinks: [],
     },
     {
       icon: Sun,
@@ -284,8 +279,6 @@ export default function HomePage() {
       duration: "2–3 h",
       includes: ["Navegación por el río.", "Vistas panorámicas.", "Experiencia relajada."],
       ideal: "Disfrutar del entorno desde el agua.",
-      galleryId: "nautico",
-      officialLinks: [],
     },
     {
       icon: Backpack,
@@ -299,8 +292,26 @@ export default function HomePage() {
         "Experiencia cultural y natural auténtica.",
       ],
       ideal: "Conexión con la naturaleza y la cultura local.",
-      galleryId: "iryapu",
-      officialLinks: [],
+    },
+  ]
+
+  // Antes era "Joyas ocultas". Ahora: "Otras excursiones".
+  const otrasExcursiones = [
+    {
+      title: "Güirá Oga (rescate de fauna)",
+      desc: "Visita distinta y educativa; ideal como plan B si llueve.",
+    },
+    {
+      title: "Jardín de los Picaflores",
+      desc: "Visita corta y fotogénica; ideal para la tarde.",
+    },
+    {
+      title: "La Aripuca",
+      desc: "Cultural + recorrido corto; buena opción con niños.",
+    },
+    {
+      title: "Hito Tres Fronteras (atardecer)",
+      desc: "Fotos aseguradas y paseo nocturno fácil.",
     },
   ]
 
@@ -323,43 +334,17 @@ export default function HomePage() {
     },
   ]
 
-  const restaurantes = [
-    {
-      category: "Parrilla & argentino",
-      list: [
-        { name: "Parrillas del centro", note: "Ideal para carne y porciones abundantes.", area: "Centro" },
-        { name: "Opciones premium", note: "Para cena con reserva y ambiente tranquilo.", area: "Ruta / zona hoteles" },
-      ],
-    },
-    {
-      category: "Experiencias",
-      list: [
-        { name: "Cena show", note: "Perfecto para la primera noche y grupos.", area: "Foz / Puerto Iguazú" },
-        { name: "Degustación / pasos", note: "Ideal para parejas y aniversarios.", area: "Centro" },
-      ],
-    },
-    {
-      category: "Rápido y económico",
-      list: [
-        { name: "Hamburguesas / lomitos", note: "Cenas rápidas antes de descansar.", area: "Centro" },
-        { name: "Pizzerías", note: "Opción rendidora para familias.", area: "Centro" },
-      ],
-    },
-    {
-      category: "Cafeterías & meriendas",
-      list: [
-        { name: "Café de especialidad", note: "Para arrancar temprano o merienda post-paseo.", area: "Centro" },
-        { name: "Heladerías", note: "Plan corto para tarde/noche.", area: "Centro" },
-      ],
-    },
+  const navItems = [
+    { href: "#excursiones", label: "Excursiones" },
+    { href: "#otras-excursiones", label: "Otras excursiones" },
+    { href: "#movilidad", label: "Movilidad" },
+    { href: "#info", label: "Info útil" },
+    { href: "#contacto", label: "Contacto" },
   ]
 
-  const joyasOcultas = [
-    { title: "Güirá Oga (rescate de fauna)", why: "Visita distinta y educativa; ideal como plan B si llueve.", how: "En taxi/transfer coordinado (horarios a confirmar)." },
-    { title: "Jardín de los Picaflores", why: "Visita corta y fotogénica (ideal para la tarde).", how: "Cerca del centro; se coordina según horario del lugar." },
-    { title: "La Aripuca", why: "Cultural + recorrido corto; buena opción con niños.", how: "Acceso simple; conviene combinar con otro paseo." },
-    { title: "Hito Tres Fronteras (atardecer)", why: "Fotos aseguradas y paseo nocturno fácil.", how: "Se puede ir en transfer o taxi; recomendamos el horario de la puesta de sol." },
-  ]
+  function closeMobileMenu() {
+    setMobileMenuOpen(false)
+  }
 
   return (
     <div className="min-h-screen bg-background pt-20 overflow-x-hidden">
@@ -377,31 +362,13 @@ export default function HomePage() {
             <span className="text-xl leading-none font-semibold text-[#d4a84b] whitespace-nowrap">NEXO IGUAZÚ</span>
           </a>
 
+          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-5">
-            <a href="#excursiones" className="text-white/70 hover:text-white transition-colors">
-              Excursiones
-            </a>
-            <a href="#movilidad" className="text-white/70 hover:text-white transition-colors">
-              Movilidad
-            </a>
-            <a href="#restaurantes" className="text-white/70 hover:text-white transition-colors">
-              Restaurantes
-            </a>
-            <a href="#joyas" className="text-white/70 hover:text-white transition-colors">
-              Joyas ocultas
-            </a>
-            <a href="#diferencial" className="text-white/70 hover:text-white transition-colors">
-              Nuestro diferencial
-            </a>
-            <a href="#info" className="text-white/70 hover:text-white transition-colors">
-              Info útil
-            </a>
-            <a href="#galerias" className="text-white/70 hover:text-white transition-colors">
-              Galerías
-            </a>
-            <a href="#contacto" className="text-white/70 hover:text-white transition-colors">
-              Contacto
-            </a>
+            {navItems.map((it) => (
+              <a key={it.href} href={it.href} className="text-white/70 hover:text-white transition-colors">
+                {it.label}
+              </a>
+            ))}
 
             <a
               href={whatsappLink}
@@ -412,7 +379,46 @@ export default function HomePage() {
               Consultar
             </a>
           </nav>
+
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-white/80 hover:text-white hover:bg-white/10 transition"
+            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((v) => !v)}
+          >
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
+
+        {/* Mobile menu panel */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-white/10 bg-[#1a365d]/98">
+            <div className="px-4 py-4 flex flex-col gap-2">
+              {navItems.map((it) => (
+                <a
+                  key={it.href}
+                  href={it.href}
+                  onClick={closeMobileMenu}
+                  className="rounded-lg px-3 py-2 text-white/85 hover:text-white hover:bg-white/10 transition"
+                >
+                  {it.label}
+                </a>
+              ))}
+
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeMobileMenu}
+                className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#d4a84b] px-4 py-2 text-[#0b1b2b] font-semibold hover:opacity-90 transition"
+              >
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Hero con video */}
@@ -528,12 +534,7 @@ export default function HomePage() {
                         </div>
                       ) : null}
 
-                      <div className="mt-6 flex gap-3">
-                        <Button variant="outline" asChild>
-                          <Link href={`/galerias?g=${item.galleryId}`}>Ver galería</Link>
-                        </Button>
-
-                        {/* ✅ Consultar directo a WhatsApp (sin /contacto) */}
+                      <div className="mt-6">
                         <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
                           <a href={consultUrl} target="_blank" rel="noopener noreferrer">
                             Consultar
@@ -550,6 +551,7 @@ export default function HomePage() {
           {/* Zona */}
           <div>
             <p className="text-[#7cc5e3] font-medium mb-2">Paseos en la zona</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-6">Opciones cercanas</h2>
 
             <div className="grid md:grid-cols-2 gap-6">
               {excursionesZona.map((item, i) => {
@@ -579,12 +581,7 @@ export default function HomePage() {
 
                       <p className="text-sm italic text-[#1a365d]/70 mb-4">Ideal para: {item.ideal}</p>
 
-                      <div className="mt-6 flex gap-3">
-                        <Button variant="outline" asChild>
-                          <Link href={`/galerias?g=${item.galleryId}`}>Ver galería</Link>
-                        </Button>
-
-                        {/* ✅ Consultar directo a WhatsApp (sin /contacto) */}
+                      <div className="mt-6">
                         <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
                           <a href={consultUrl} target="_blank" rel="noopener noreferrer">
                             Consultar
@@ -600,34 +597,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Diferencial */}
-      <section id="diferencial" className="py-20 px-4 bg-[#1a365d]">
+      {/* Otras excursiones (antes Joyas ocultas) */}
+      <section id="otras-excursiones" className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
-            <p className="text-[#7cc5e3] font-medium mb-2">Por qué elegirnos</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Nuestro diferencial</h2>
-            <p className="text-white/70 max-w-2xl">Trabajamos para que tu experiencia sea simple, organizada y memorable.</p>
+            <p className="text-[#7cc5e3] font-medium mb-2">Más opciones</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-4">Otras excursiones</h2>
+            <p className="text-[#1a365d]/70 max-w-3xl">
+              Alternativas cortas y buenas para sumar al itinerario (o como plan B si el clima no acompaña).
+            </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: Heart, title: "Atención humana" },
-              { icon: CheckCircle, title: "Organización real" },
-              { icon: Clock, title: "Coordinación simple" },
-              { icon: Sparkles, title: "Propuestas armadas" },
-              { icon: Route, title: "Experiencias integradas" },
-              { icon: Compass, title: "Diseño de recorridos" },
-              { icon: Heart, title: "Enfoque emocional" },
-              { icon: Users, title: "Relación directa" },
-            ].map((b, idx) => {
-              const Icon = b.icon
+          <div className="grid md:grid-cols-2 gap-6">
+            {otrasExcursiones.map((j, i) => {
+              const consultUrl = buildExcursionWhatsAppUrl(excursionsPhone, j.title)
               return (
-                <div key={idx} className="flex flex-col items-start gap-3 p-4 rounded-lg bg-white/5 border border-white/10">
-                  <div className="h-10 w-10 rounded-lg bg-[#d4a84b] flex items-center justify-center">
-                    <Icon className="h-5 w-5 text-[#1a365d]" />
-                  </div>
-                  <h3 className="font-semibold text-white">{b.title}</h3>
-                </div>
+                <Card key={i} className="bg-white border border-[#1a365d]/10">
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-semibold text-[#1a365d] mb-2">{j.title}</h3>
+                    <p className="text-[#1a365d]/70 mb-5">{j.desc}</p>
+
+                    <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
+                      <a href={consultUrl} target="_blank" rel="noopener noreferrer">
+                        Consultar
+                      </a>
+                    </Button>
+                  </CardContent>
+                </Card>
               )
             })}
           </div>
@@ -750,120 +746,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Restaurantes */}
-      <section id="restaurantes" className="py-20 px-4 bg-background">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-12">
-            <p className="text-[#7cc5e3] font-medium mb-2">Dónde comer</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-4">Restaurantes por intención</h2>
-            <p className="text-[#1a365d]/70 max-w-3xl">
-              En vez de un “top 10”, lo ordenamos por lo que buscás (parrilla, experiencia, rápido y barato, cafeterías).
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {restaurantes.map((cat, i) => (
-              <Card key={i} className="bg-white border border-[#1a365d]/10">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-[#1a365d] mb-4">{cat.category}</h3>
-                  <div className="space-y-4">
-                    {cat.list.map((r: any, idx: number) => (
-                      <div key={idx} className="p-4 rounded-lg bg-[#f8fafc] border border-[#1a365d]/10">
-                        <p className="font-semibold text-[#1a365d]">{r.name}</p>
-                        <p className="text-sm text-[#1a365d]/70">{r.note}</p>
-                        <p className="text-xs text-[#1a365d]/60 mt-2">Zona: {r.area}</p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between p-6 rounded-xl bg-[#1a365d]">
-            <div>
-              <p className="text-white font-semibold">¿Querés recomendaciones según tu estilo?</p>
-              <p className="text-white/70 text-sm">Decime presupuesto, horario y preferencias, y te paso 3 opciones concretas.</p>
-            </div>
-            <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
-              <a
-                href={buildWhatsAppUrl(
-                  excursionsPhone,
-                  "¡Hola! Quiero recomendaciones de restaurantes (presupuesto, horario y preferencias)."
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Pedir recomendaciones
-              </a>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Joyas ocultas */}
-      <section id="joyas" className="py-20 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-12">
-            <p className="text-[#7cc5e3] font-medium mb-2">Diferenciador</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-4">Lugares poco visitados</h2>
-            <p className="text-[#1a365d]/70 max-w-3xl">
-              Opciones que suman valor si ya hiciste lo clásico, si querés algo corto, o si el clima no acompaña.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {joyasOcultas.map((j, i) => (
-              <Card key={i} className="bg-white border border-[#1a365d]/10">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-[#1a365d] mb-2">{j.title}</h3>
-                  <p className="text-[#1a365d]/70 mb-3">
-                    <span className="font-medium text-[#1a365d]">Por qué vale la pena:</span> {j.why}
-                  </p>
-                  <p className="text-[#1a365d]/70">
-                    <span className="font-medium text-[#1a365d]">Cómo ir:</span> {j.how}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Galerías (solo acceso) */}
-      <section id="galerias" className="py-20 px-4 bg-background">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <p className="text-[#7cc5e3] font-medium mb-2">Fotos reales</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-4">Galerías por excursión</h2>
-            <p className="text-[#1a365d]/70 max-w-3xl">Para que cargue más rápido y quede ordenado, las galerías están en un apartado separado.</p>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/galerias"
-              className="px-4 py-2 rounded-xl bg-[#1a365d] text-white text-sm font-semibold hover:opacity-90"
-            >
-              Ver galerías
-            </Link>
-
-            {/* ✅ Consulta genérica */}
-            <a
-              href={buildWhatsAppUrl(excursionsPhone, "Hola 👋 Quiero consultar por excursiones en Iguazú. ¿Me pasás precios y disponibilidad?")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl border text-sm font-medium hover:bg-slate-50"
-            >
-              Consultar
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Contacto (sección del home) */}
+      {/* Contacto */}
       <section id="contacto" className="py-20 px-4 bg-[#1a365d]">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-[#7cc5e3] font-medium mb-2">Contactanos</p>
+          <p className="text-[#7cc5e3] font-medium mb-2">Contacto</p>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Hablemos de tu viaje</h2>
           <p className="text-white/70 mb-8 max-w-2xl mx-auto">Respondemos rápido y te armamos una propuesta a medida.</p>
 
