@@ -178,7 +178,7 @@ export default function HomePage() {
     {
       icon: Compass,
       title: "Cataratas Brasil + Parque das Aves",
-      price: "Paquete completo: $40.000 por persona",
+      price: "Paquete completo: $40.000 por persona (mín. 10 pax) — 4 a 9 pax: consultar",
       duration: "Día completo (4–6 h)",
       notes: ["Modalidades disponibles:", "✔️ Todo junto (en el día o según itinerario).", "✔️ Excursiones individuales (consultar precios por separado)."],
       includes: [
@@ -197,8 +197,8 @@ export default function HomePage() {
     },
     {
       icon: Sparkles,
-      title: "Represa de Itaipú",
-      price: "A confirmar",
+      title: "Paraguay/Itaipú",
+      price: "$50.000 por persona (mín. 10 pax) — 4 a 9 pax: consultar",
       duration: "Medio día (4–6 h)",
       includes: ["Traslado internacional.", "Visita guiada (según opción disponible).", "Recorrido por una de las mayores obras de ingeniería del mundo."],
       ideal: "Turismo cultural y tecnológico.",
@@ -210,7 +210,7 @@ export default function HomePage() {
     {
       icon: Route,
       title: "Compras en Paraguay — Shopping + auto con espera",
-      price: "$34.000 por persona",
+      price: "$34.000 por persona (mín. 10 pax) — 4 a 9 pax: consultar",
       duration: "3 h (auto en espera)",
       notes: [
         "Modalidad:",
@@ -227,14 +227,14 @@ export default function HomePage() {
   ]
 
   const excursionesZona: Excursion[] = [
-    { icon: Droplets, title: "Salto del Turista", price: "$20.000 por persona", duration: "Medio día (3–5 h)", includes: ["Traslado.", "Acceso al salto.", "Tiempo para caminatas y fotos."], ideal: "Naturaleza y tranquilidad." },
-    { icon: Droplets, title: "Salto Mbocay", price: "$15.000 por persona", duration: "Medio día (2–4 h)", includes: ["Traslado.", "Visita al salto.", "Tiempo libre."], ideal: "Escapada corta y económica." },
-    { icon: Heart, title: "Minas de Wanda", price: "$25.000 por persona", duration: "Medio día (4–6 h)", includes: ["Traslado.", "Visita guiada a las minas.", "Explicación geológica y cultural."], ideal: "Familias y turismo educativo." },
-    { icon: Sun, title: "Paseo náutico", price: "A confirmar", duration: "2–3 h", includes: ["Navegación por el río.", "Vistas panorámicas.", "Experiencia relajada."], ideal: "Disfrutar del entorno desde el agua." },
+    { icon: Droplets, title: "Salto del Turista", price: "$20.000 por persona (mín. 10 pax) — 4 a 9 pax: consultar", duration: "Medio día (3–5 h)", includes: ["Traslado.", "Acceso al salto.", "Tiempo para caminatas y fotos."], ideal: "Naturaleza y tranquilidad." },
+    { icon: Droplets, title: "Salto Mbocay", price: "$15.000 por persona (mín. 10 pax) — 4 a 9 pax: consultar", duration: "Medio día (2–4 h)", includes: ["Traslado.", "Visita al salto.", "Tiempo libre."], ideal: "Escapada corta y económica." },
+    { icon: Heart, title: "Minas de Wanda", price: "A confirmar", duration: "Medio día (4–6 h)", includes: ["Traslado.", "Visita guiada a las minas.", "Explicación geológica y cultural."], ideal: "Familias y turismo educativo." },
+    { icon: Sun, title: "Paseo náutico", price: "$30.000 por persona(mín. 10 pax) — 4 a 9 pax: consultar", duration: "2–3 h", includes: ["Navegación por el río.", "Vistas panorámicas.", "Experiencia relajada."], ideal: "Disfrutar del entorno desde el agua." },
     {
       icon: Backpack,
       title: "Selva Iryapú – Comunidades originarias",
-      price: "$20.000 por persona",
+      price: "$20.000 por persona (mín. 10 pax) — 4 a 9 pax: consultar",
       duration: "2–4 h",
       includes: ["Traslado.", "Caminatas por senderos selváticos.", "Guías pertenecientes a comunidades originarias.", "Experiencia cultural y natural auténtica."],
       ideal: "Conexión con la naturaleza y la cultura local.",
@@ -268,89 +268,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0b1f3a] pt-20 overflow-x-hidden">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#1a365d]/95 backdrop-blur-sm border-b h-20 overflow-hidden">
-        <div className="mx-auto max-w-7xl px-4 h-full flex items-center justify-between overflow-x-hidden overflow-y-visible">
-          <a href="#" className="flex items-center gap-2 h-full" onClick={closeMobileMenu}>
-            <FallbackImg
-              src="/images/mariposa-logo.png"
-              alt="NEXO IGUAZÚ"
-              className="h-18 md:h-20 w-auto"
-              fallbackSrc="/images/placeholder.png"
-              loading="lazy"
-            />
-            <span className="text-xl leading-none font-semibold text-[#d4a84b] whitespace-nowrap">NEXO IGUAZÚ</span>
-          </a>
-
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-5">
-            {navItems.map((it) => (
-              <a key={it.href} href={it.href} className="text-white/70 hover:text-white transition-colors">
-                {it.label}
-              </a>
-            ))}
-
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-2 inline-flex items-center rounded-md bg-[#d4a84b] px-4 py-2 text-[#0b1b2b] font-semibold hover:opacity-90 transition"
-            >
-              Consultar
-            </a>
-          </nav>
-
-          {/* Mobile menu button */}
-          <button
-            type="button"
-            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-white/80 hover:text-white hover:bg-white/10 transition"
-            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={mobileMenuOpen}
-            onClick={() => setMobileMenuOpen((v) => !v)}
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <>
-            {/* Overlay */}
-            <button
-              type="button"
-              aria-label="Cerrar menú"
-              className="fixed inset-0 z-[60] bg-black/40 md:hidden"
-              onClick={closeMobileMenu}
-            />
-
-            {/* Panel del menú (SIN carrusel) */}
-            <div className="md:hidden border-t border-white/10 bg-[#1a365d]/98 relative z-[70]">
-              <div className="px-4 py-4 flex flex-col gap-2">
-                {navItems.map((it) => (
-                  <a
-                    key={it.href}
-                    href={it.href}
-                    onClick={closeMobileMenu}
-                    className="rounded-lg px-3 py-3 text-white/85 hover:text-white hover:bg-white/10"
-                  >
-                    {it.label}
-                  </a>
-                ))}
-
-                <a
-                  href={whatsappLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={closeMobileMenu}
-                  className="mt-2 inline-flex items-center justify-center rounded-xl bg-[#d4a84b] px-4 py-3 font-semibold text-[#1a365d] hover:brightness-95"
-                >
-                  Consultar por WhatsApp
-                </a>
-              </div>
-            </div>
-          </>
-        )}
-      </header>
+    <div className="min-h-screen bg-[#0b1f3a] overflow-x-hidden">
 
       {/* ✅ Carrusel ARRIBA del hero (MÓVIL + DESKTOP) */}
       <section className="bg-[#0b1f3a] border-b border-white/10">
