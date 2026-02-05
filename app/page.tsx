@@ -1,7 +1,7 @@
 "use client"
-
+import ContactsSection from "@/components/ContactsSection"
 import IguazuCarousel from "@/components/IguazuCarousel"
-import { useState } from "react"
+import {useState} from "react"
 import WeatherCard from "@/components/WeatherCard"
 import FallbackImg from "@/components/FallbackImg"
 import { Button } from "@/components/ui/button"
@@ -591,7 +591,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
+<ContactsSection />
       {/* Contacto */}
       <section id="contacto" className="py-20 px-4 bg-[#1a365d]">
         <div className="max-w-4xl mx-auto text-center">

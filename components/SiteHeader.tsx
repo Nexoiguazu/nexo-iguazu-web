@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: "Movilidad", href: "#movilidad" },
   { label: "Info útil", href: "#info" },
   { label: "Contacto", href: "#contacto" },
+  { label: "Contactos útiles", href: "#servicios" },
 ]
 
 export default function SiteHeader() {
