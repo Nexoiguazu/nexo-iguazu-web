@@ -639,7 +639,7 @@ export default function HomePage() {
                 <span>nexoiguazu@gmail.com</span>
               </div>
             </div>
-            <p className="text-white/50 text-sm">Lucila Owstroski - NEXO IGUAZÚ</p>
+            <p className="text-white/50 text-sm"> - NEXO IGUAZÚ</p>
           </div>
         </div>
       </footer>
