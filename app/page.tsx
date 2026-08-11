@@ -643,6 +643,21 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+<footer className="border-t border-white/10 bg-[#0b1f3a] px-4 py-6 text-center">
+  <p className="text-sm text-white/70">
+    © 2026 NEXO IGUAZU
+  </p>
+
+  <p className="mt-1 text-xs text-white/50">
+    Sitio web diseñado y desarrollado por{" "}
+    <a
+      href="mailto:maikolbtst@gmail.com"
+      className="font-semibold text-white/70 transition hover:text-white"
+    >
+      Maikol Batista
+    </a>
+  </p>
+</footer>
 
       {/* Botón flotante Remis */}
       <a
