@@ -655,6 +655,7 @@ export default function HomePage() {
       className="font-semibold text-white/70 transition hover:text-white"
     >
       Maikol Batista
+maikolbtst@gmail.com
     </a>
   </p>
 </footer>
