@@ -611,7 +611,7 @@ export default function HomePage() {
           <div className="flex items-center justify-center gap-2 text-white/70">
             <Mail className="h-4 w-4" />
             <a href="mailto:Nexoiguazu@gmail.com" className="hover:text-white transition-colors">
-              nexoiguazu@gmail.com
+              ****
             </a>
           </div>
         </div>
@@ -636,7 +636,7 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
-                <span>nexoiguazu@gmail.com</span>
+                <span>****</span>
               </div>
             </div>
             <p className="text-white/50 text-sm"> - NEXO IGUAZÚ</p>
