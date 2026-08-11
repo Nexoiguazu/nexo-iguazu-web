@@ -48,7 +48,7 @@ function InfoCards() {
       ],
       cta: {
         label: "Cotizar transfer",
-        href: "https://wa.me/543757558723?text=Hola!%20Quiero%20cotizar%20un%20transfer%20desde%20el%20aeropuerto%20(IGR)%20al%20centro/hotel.",
+        href: "https://wa.me/543757------?text=Hola!%20Quiero%20cotizar%20un%20transfer%20desde%20el%20aeropuerto%20(IGR)%20al%20centro/hotel.",
       },
       note: "Respuesta rápida por WhatsApp. Coordinamos horario de vuelo y equipaje.",
     },
@@ -148,8 +148,8 @@ function buildExcursionWhatsAppUrl(phone: string, excursionTitle: string) {
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const excursionsPhone = "543757558723" // Excursiones
-  const remisPhone = "543757508950" // Remis
+  const excursionsPhone = "543757------" // Excursiones
+  const remisPhone = "543757------" // Remis
 
   const whatsappMessage = "¡Hola! 👋 Quiero info y precios de las excursiones de Nexo Iguazú. ¿Me ayudás?"
   const remisMessage = "¡Hola! 🚗 Quiero pedir un remis/transfer. ¿Me decís disponibilidad, precio y tiempo de espera? Origen: ___  Destino: ___"
@@ -603,7 +603,7 @@ export default function HomePage() {
             <Button size="lg" className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-5 w-5" />
-                WhatsApp: +54 3757 558723
+                WhatsApp: +54 3757 ------
               </a>
             </Button>
           </div>
