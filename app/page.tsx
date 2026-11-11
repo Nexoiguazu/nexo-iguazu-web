@@ -763,7 +763,7 @@ maikolbtst@gmail.com
         aria-label="Consultar transfer por WhatsApp"
       >
         <Car className="h-7 w-7" />
-      </a>
+      </a>}
     </div>
   )
 }
