@@ -36,7 +36,8 @@ export default function MiCuenta() {
       <h1 className="mb-4 text-2xl font-bold">Mi cuenta</h1>
       {loading ? <p>Comprobando sesión...</p> : email ? <>
         <p>Sesión iniciada: {email}</p>
-        <p className="my-4">Próximamente: consultas y chat privado.</p>
+        <p className="my-4">Por ahora, el asesoramiento personalizado de Nexo Iguazú se realiza por WhatsApp.</p>
+        <p className="mb-5"><Link href="/contacto" className="text-[#f0d48d] underline">Continuar asesoramiento por WhatsApp</Link></p>
         {isAdmin && <p className="mb-5"><Link href="/admin" className="rounded-lg border border-[#d4a84b] px-4 py-2 text-[#f0d48d]">Abrir panel de administración</Link></p>}
         <button onClick={logout} className="rounded bg-[#d4a84b] px-4 py-2 text-slate-900">Cerrar sesión</button>
       </> : <Link href="/login" className="underline">Ingresá para continuar</Link>}
