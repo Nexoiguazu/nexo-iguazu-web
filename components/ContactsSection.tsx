@@ -1,6 +1,7 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { getSupabaseClient } from "@/lib/supabase/client"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -168,6 +169,19 @@ const CONTACTS: ContactItem[] = [
   },
 ]
 
+type ContactRow = {
+  id: string
+  name: string
+  category: Category
+  zone: string
+  hours: string
+  phone: string | null
+  whatsapp: string | null
+  address: string
+  maps_url: string | null
+  tags: string[]
+}
+
 function normalize(s: string) {
   return s
     .toLowerCase()
@@ -185,10 +199,40 @@ function toWaLink(numberE164: string, text?: string) {
 export default function ContactsSection() {
   const [active, setActive] = useState<Category>("farmacias")
   const [q, setQ] = useState("")
+  // Mientras no se aplique la migración, conservamos el directorio original.
+  const [managedContacts, setManagedContacts] = useState<ContactItem[] | null>(null)
+
+  useEffect(() => {
+    const supabase = getSupabaseClient()
+    if (!supabase) return
+    let activeRequest = true
+    void supabase.from("nexo_contacts")
+      .select("id,name,category,zone,hours,phone,whatsapp,address,maps_url,tags")
+      .eq("is_published", true)
+      .order("position", { ascending: true })
+      .order("name", { ascending: true })
+      .then(({ data, error }) => {
+        if (!activeRequest || error) return
+        setManagedContacts(((data ?? []) as ContactRow[]).map(row => ({
+          id: row.id,
+          name: row.name,
+          category: row.category,
+          zone: row.zone || undefined,
+          hours: row.hours || undefined,
+          phone: row.phone || undefined,
+          whatsapp: row.whatsapp || undefined,
+          address: row.address || undefined,
+          mapsUrl: row.maps_url || undefined,
+          tags: row.tags ?? [],
+        })))
+      })
+    return () => { activeRequest = false }
+  }, [])
 
   const items = useMemo(() => {
     const query = normalize(q)
-    return CONTACTS.filter((c) => c.category === active).filter((c) => {
+    const source = managedContacts ?? CONTACTS
+    return source.filter((c) => c.category === active).filter((c) => {
       if (!query) return true
       const hay = normalize(
         [
@@ -205,7 +249,7 @@ export default function ContactsSection() {
       )
       return hay.includes(query)
     })
-  }, [active, q])
+  }, [active, q, managedContacts])
 
   const meta = CATEGORY_META[active]
   const Icon = meta.icon
@@ -337,7 +381,7 @@ export default function ContactsSection() {
                   )}
 
                   <div className="mt-5 flex flex-wrap gap-2">
-                    {c.phone && (
+                    {c.phone && c.phone.replace(/\D/g, "").length >= 10 && (
                       <Button asChild variant="outline" className="gap-2">
                         <a href={`tel:${c.phone.replace(/\s/g, "")}`}>
                           <Phone className="h-4 w-4" />
@@ -345,7 +389,7 @@ export default function ContactsSection() {
                         </a>
                       </Button>
                     )}
-                    {c.whatsapp && (
+                    {c.whatsapp && c.whatsapp.replace(/\D/g, "").length >= 10 && (
                       <Button
                         asChild
                         className="gap-2 bg-[#25D366] hover:bg-[#20bd59]"
@@ -388,7 +432,7 @@ export default function ContactsSection() {
             ¿Querés sumar un contacto o corregir datos?
           </p>
           <p className="text-sm text-[#1a365d]/70 mt-1">
-            Enviame el nombre, zona, horarios y WhatsApp, y lo agrego al listado.
+            Escribinos por WhatsApp a Nexo Iguazú para sugerir un nuevo servicio o informar una corrección.
           </p>
         </div>
       </div>
