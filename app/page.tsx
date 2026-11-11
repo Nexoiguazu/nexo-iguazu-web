@@ -31,11 +31,11 @@ type InfoCard = {
   badge?: string
   bullets: string[]
   highlight?: boolean
-  cta?: { label: string; href: string }
+  cta?: { label: string }
   note?: string
 }
 
-function InfoCards() {
+function InfoCards({ transferLink }: { transferLink: string | null }) {
   const cards: InfoCard[] = [
     {
       title: "Transfer privado (RECOMENDADO)",
@@ -49,7 +49,6 @@ function InfoCards() {
       ],
       cta: {
         label: "Cotizar transfer",
-        href: "https://wa.me/543757------?text=Hola!%20Quiero%20cotizar%20un%20transfer%20desde%20el%20aeropuerto%20(IGR)%20al%20centro/hotel.",
       },
       note: "Respuesta rápida por WhatsApp. Coordinamos horario de vuelo y equipaje.",
     },
@@ -102,10 +101,10 @@ function InfoCards() {
 
             {c.note && <p className={["mt-4 text-xs", c.highlight ? "text-white/70" : "text-slate-500"].join(" ")}>{c.note}</p>}
 
-            {c.cta && (
+            {c.cta && transferLink && (
               <div className="mt-5">
                 <a
-                  href={c.cta.href}
+                  href={transferLink}
                   target="_blank"
                   rel="noreferrer"
                   className={[
@@ -147,8 +146,10 @@ type ManagedExcursion = {
   position: number
 }
 
-function buildWhatsAppUrl(phone: string, message: string) {
-  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+function buildWhatsAppUrl(phone: string, message: string): string | null {
+  const digits = phone.replace(/\D/g, "")
+  if (!/^\d{10,15}$/.test(digits)) return null
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`
 }
 
 function buildExcursionWhatsAppUrl(phone: string, excursionTitle: string) {
@@ -159,11 +160,19 @@ function buildExcursionWhatsAppUrl(phone: string, excursionTitle: string) {
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [managedExcursions, setManagedExcursions] = useState<ManagedExcursion[] | null>(null)
+  const [advicePhone, setAdvicePhone] = useState("")
 
   useEffect(() => {
     const supabase = getSupabaseClient()
     if (!supabase) return
     let active = true
+    void supabase.from("nexo_settings")
+      .select("value_text")
+      .eq("key", "advisory_whatsapp")
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (active && !error) setAdvicePhone(data?.value_text ?? "")
+      })
     void supabase.from("nexo_excursions")
       .select("title,price_text,duration,description,image_url,position")
       .eq("is_published", true)
@@ -174,14 +183,14 @@ export default function HomePage() {
     return () => { active = false }
   }, [])
 
-  const excursionsPhone = "543757------" // Excursiones
-  const remisPhone = "543757------" // Remis
+  const excursionsPhone = advicePhone // Configurable en /admin/contactos
 
   const whatsappMessage = "¡Hola! 👋 Quiero info y precios de las excursiones de Nexo Iguazú. ¿Me ayudás?"
   const remisMessage = "¡Hola! 🚗 Quiero pedir un remis/transfer. ¿Me decís disponibilidad, precio y tiempo de espera? Origen: ___  Destino: ___"
 
   const whatsappLink = buildWhatsAppUrl(excursionsPhone, whatsappMessage)
-  const remisLink = buildWhatsAppUrl(remisPhone, remisMessage)
+  const remisLink = buildWhatsAppUrl(advicePhone, remisMessage)
+  const transferLink = buildWhatsAppUrl(advicePhone, "Hola, quiero cotizar un transfer desde el aeropuerto a mi hotel en Iguazú.")
 
   const excursionesInternational: Excursion[] = [
     {
@@ -342,12 +351,14 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
+              {whatsappLink ? (
+<Button size="lg" className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
                 <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Consultar por WhatsApp
                 </a>
               </Button>
+) : <p className="rounded-md border border-current/20 px-3 py-2 text-sm opacity-70">WhatsApp de asesoramiento en preparación</p>}
 
               <Button size="lg" variant="outline" className="border-[#7cc5e3] text-[#7cc5e3] hover:bg-[#7cc5e3]/10 bg-transparent" asChild>
                 <a href="#excursiones">Ver excursiones</a>
@@ -435,11 +446,13 @@ export default function HomePage() {
                       ) : null}
 
                       <div className="mt-6">
-                        <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
+                        {consultUrl ? (
+<Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
                           <a href={consultUrl} target="_blank" rel="noopener noreferrer">
                             Consultar
                           </a>
                         </Button>
+) : <p className="rounded-md border border-current/20 px-3 py-2 text-sm opacity-70">WhatsApp de asesoramiento en preparación</p>}
                       </div>
                     </CardContent>
                   </Card>
@@ -483,11 +496,13 @@ export default function HomePage() {
                       <p className="text-sm italic text-[#1a365d]/70 mb-4">Ideal para: {item.ideal}</p>
 
                       <div className="mt-6">
-                        <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
+                        {consultUrl ? (
+<Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
                           <a href={consultUrl} target="_blank" rel="noopener noreferrer">
                             Consultar
                           </a>
                         </Button>
+) : <p className="rounded-md border border-current/20 px-3 py-2 text-sm opacity-70">WhatsApp de asesoramiento en preparación</p>}
                       </div>
                     </CardContent>
                   </Card>
@@ -519,9 +534,11 @@ export default function HomePage() {
                       <p className="font-semibold text-[#d4a84b] mb-2">{j.price_text}</p>
                       {j.duration && <p className="text-sm text-[#1a365d]/70 mb-2">{j.duration}</p>}
                       {j.description && <p className="text-sm text-[#1a365d]/70 mb-4">{j.description}</p>}
-                      <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d]" asChild>
-                        <a href={buildExcursionWhatsAppUrl(excursionsPhone, j.title)} target="_blank" rel="noopener noreferrer">Consultar</a>
-                      </Button>
+                      {buildExcursionWhatsAppUrl(excursionsPhone, j.title) ? (
+                        <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d]" asChild>
+                          <a href={buildExcursionWhatsAppUrl(excursionsPhone, j.title)!} target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+                        </Button>
+                      ) : <p className="text-sm text-[#1a365d]/70">WhatsApp de asesoramiento en preparación</p>}
                     </CardContent>
                   </Card>
                 ))}
@@ -538,11 +555,13 @@ export default function HomePage() {
                     <h3 className="text-xl font-semibold text-[#1a365d] mb-2">{j.title}</h3>
                     <p className="text-[#1a365d]/70 mb-5">{j.desc}</p>
 
-                    <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
+                    {consultUrl ? (
+<Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
                       <a href={consultUrl} target="_blank" rel="noopener noreferrer">
                         Consultar
                       </a>
                     </Button>
+) : <p className="rounded-md border border-current/20 px-3 py-2 text-sm opacity-70">WhatsApp de asesoramiento en preparación</p>}
                   </CardContent>
                 </Card>
               )
@@ -634,7 +653,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <InfoCards />
+          <InfoCards transferLink={transferLink} />
 
           <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {movilidad.map((m, i) => (
@@ -671,12 +690,14 @@ export default function HomePage() {
           <p className="text-white/70 mb-8 max-w-2xl mx-auto">Respondemos rápido y te armamos una propuesta a medida.</p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Button size="lg" className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
+            {whatsappLink ? (
+<Button size="lg" className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d] font-semibold" asChild>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-5 w-5" />
-                WhatsApp: +54 3757 ------
+                Asesoramiento por WhatsApp
               </a>
             </Button>
+) : <p className="rounded-md border border-current/20 px-3 py-2 text-sm opacity-70">WhatsApp de asesoramiento en preparación</p>}
           </div>
 
           <div className="flex items-center justify-center gap-2 text-white/70">
@@ -701,10 +722,12 @@ export default function HomePage() {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-white/20">
             <div className="flex items-center gap-6 text-white/70 text-sm">
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                <span>+54 3757 ------</span>
-              </div>
+              {buildWhatsAppUrl(advicePhone, "") && (
+                <div className="flex items-center gap-2">
+                  <Phone className="h-4 w-4" />
+                  <span>+{advicePhone.replace(/\D/g, "")}</span>
+                </div>
+              )}
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
                 <span>****</span>
@@ -732,12 +755,12 @@ maikolbtst@gmail.com
 </footer>
 
       {/* Botón flotante Remis */}
-      <a
+      {remisLink && <a
         href={remisLink}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-[#d4a84b] text-[#1a365d] flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
-        aria-label="Pedir remis por WhatsApp"
+        aria-label="Consultar transfer por WhatsApp"
       >
         <Car className="h-7 w-7" />
       </a>
