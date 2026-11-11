@@ -1,7 +1,8 @@
 "use client"
 import ContactsSection from "@/components/ContactsSection"
 import IguazuCarousel from "@/components/IguazuCarousel"
-import {useState} from "react"
+import { useEffect, useState } from "react"
+import { getSupabaseClient } from "@/lib/supabase/client"
 import WeatherCard from "@/components/WeatherCard"
 import FallbackImg from "@/components/FallbackImg"
 import { Button } from "@/components/ui/button"
@@ -134,6 +135,16 @@ type Excursion = {
   ideal: string
   notes?: string[]
   officialLinks?: OfficialLink[]
+  imageUrl?: string
+}
+
+type ManagedExcursion = {
+  title: string
+  price_text: string
+  duration: string
+  description: string
+  image_url: string | null
+  position: number
 }
 
 function buildWhatsAppUrl(phone: string, message: string) {
@@ -147,6 +158,21 @@ function buildExcursionWhatsAppUrl(phone: string, excursionTitle: string) {
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [managedExcursions, setManagedExcursions] = useState<ManagedExcursion[] | null>(null)
+
+  useEffect(() => {
+    const supabase = getSupabaseClient()
+    if (!supabase) return
+    let active = true
+    void supabase.from("nexo_excursions")
+      .select("title,price_text,duration,description,image_url,position")
+      .eq("is_published", true)
+      .order("position", { ascending: true })
+      .then(({ data, error }) => {
+        if (active && !error) setManagedExcursions((data ?? []) as ManagedExcursion[])
+      })
+    return () => { active = false }
+  }, [])
 
   const excursionsPhone = "543757------" // Excursiones
   const remisPhone = "543757------" // Remis
@@ -255,6 +281,27 @@ export default function HomePage() {
     { title: "Cruce a Brasil / Paraguay", items: ["Documento vigente (DNI/pasaporte según el caso).", "En días pico, planificamos horarios para evitar demoras."] },
   ]
 
+  // Si Supabase todavía no está preparado, se conserva el catálogo original.
+  // Cuando responde correctamente, allí se decide qué publicar u ocultar.
+  function fromDatabase(original: Excursion[]): Excursion[] {
+    if (managedExcursions === null) return original
+    return original.flatMap(item => {
+      const managed = managedExcursions.find(row => row.title === item.title)
+      if (!managed) return []
+      return [{
+        ...item,
+        price: managed.price_text,
+        duration: managed.duration || item.duration,
+        imageUrl: managed.image_url || undefined,
+      }]
+    })
+  }
+
+  const classicExcursions = fromDatabase(excursionesInternational)
+  const localExcursions = fromDatabase(excursionesZona)
+  const originalTitles = new Set([...excursionesInternational, ...excursionesZona].map(item => item.title))
+  const customExcursions = (managedExcursions ?? []).filter(item => !originalTitles.has(item.title))
+
   const navItems = [
     { href: "#excursiones", label: "Excursiones" },
     { href: "#otras-excursiones", label: "Otras excursiones" },
@@ -326,7 +373,7 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-6">Experiencias imperdibles</h2>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {excursionesInternational.map((item, i) => {
+              {classicExcursions.map((item, i) => {
                 const Icon = item.icon
                 const consultUrl = buildExcursionWhatsAppUrl(excursionsPhone, item.title)
 
@@ -337,6 +384,7 @@ export default function HomePage() {
                         <Icon className="h-6 w-6 text-[#7cc5e3]" />
                       </div>
 
+                      {item.imageUrl && <img src={item.imageUrl} alt={item.title} loading="lazy" className="mb-4 h-44 w-full rounded-xl object-cover" />}
                       <h3 className="text-xl font-semibold text-[#1a365d] mb-1">{item.title}</h3>
                       <p className="font-semibold text-[#d4a84b] mb-2">{item.price}</p>
 
@@ -406,7 +454,7 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-6">Opciones cercanas</h2>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {excursionesZona.map((item, i) => {
+              {localExcursions.map((item, i) => {
                 const Icon = item.icon
                 const consultUrl = buildExcursionWhatsAppUrl(excursionsPhone, item.title)
 
@@ -417,6 +465,7 @@ export default function HomePage() {
                         <Icon className="h-6 w-6 text-[#7cc5e3]" />
                       </div>
 
+                      {item.imageUrl && <img src={item.imageUrl} alt={item.title} loading="lazy" className="mb-4 h-44 w-full rounded-xl object-cover" />}
                       <h3 className="text-xl font-semibold text-[#1a365d] mb-1">{item.title}</h3>
                       <p className="font-semibold text-[#d4a84b] mb-2">{item.price}</p>
 
@@ -457,6 +506,28 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-bold text-[#1a365d] mb-4">Otras excursiones</h2>
             <p className="text-[#1a365d]/70 max-w-3xl">Alternativas cortas y buenas para sumar al itinerario (o como plan B si el clima no acompaña).</p>
           </div>
+
+          {customExcursions.length > 0 && (
+            <div className="mb-10">
+              <h3 className="mb-5 text-xl font-semibold text-[#1a365d]">Nuevas experiencias</h3>
+              <div className="grid gap-6 md:grid-cols-2">
+                {customExcursions.map(j => (
+                  <Card key={j.title} className="bg-white border border-[#1a365d]/10">
+                    <CardContent className="p-6">
+                      {j.image_url && <img src={j.image_url} alt={j.title} loading="lazy" className="mb-4 h-44 w-full rounded-xl object-cover" />}
+                      <h4 className="text-xl font-semibold text-[#1a365d] mb-2">{j.title}</h4>
+                      <p className="font-semibold text-[#d4a84b] mb-2">{j.price_text}</p>
+                      {j.duration && <p className="text-sm text-[#1a365d]/70 mb-2">{j.duration}</p>}
+                      {j.description && <p className="text-sm text-[#1a365d]/70 mb-4">{j.description}</p>}
+                      <Button className="bg-[#d4a84b] hover:bg-[#c49a3d] text-[#1a365d]" asChild>
+                        <a href={buildExcursionWhatsAppUrl(excursionsPhone, j.title)} target="_blank" rel="noopener noreferrer">Consultar</a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="grid md:grid-cols-2 gap-6">
             {otrasExcursiones.map((j, i) => {
