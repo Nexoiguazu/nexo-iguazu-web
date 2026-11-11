@@ -66,7 +66,7 @@ export default function ContactClient() {
           <p className="mt-4 text-sm text-[#1a365d]/70">
             El WhatsApp de asesoramiento todavía no está configurado en esta versión de prueba.
           </p>
-        )
+        )}
 
         <p className="mt-4 text-xs text-[#1a365d]/60 break-words">Mensaje: {msg}</p>
       </div>
