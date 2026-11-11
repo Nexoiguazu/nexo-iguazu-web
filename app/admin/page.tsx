@@ -179,7 +179,12 @@ export default function AdminPage() {
           <h1 className="text-3xl font-bold">Panel de Nexo Iguazú</h1>
           <p className="text-sm text-white/70">Editá excursiones, precios y fotografías desde acá.</p>
         </div>
-        <Link href="/" className="rounded-lg border border-white/30 px-4 py-2 text-sm">Ver página pública</Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/admin/contactos" className="rounded-lg bg-[#d4a84b] px-4 py-2 text-sm font-semibold text-[#0b1f3a]">
+            Gestionar contactos útiles
+          </Link>
+          <Link href="/" className="rounded-lg border border-white/30 px-4 py-2 text-sm">Ver página pública</Link>
+        </div>
       </div>
 
       {feedback && <p role="status" className="rounded-lg border border-[#d4a84b]/40 bg-white/10 p-3 text-sm">{feedback}</p>}
