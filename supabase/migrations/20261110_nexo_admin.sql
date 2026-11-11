@@ -45,12 +45,17 @@ revoke all on public.nexo_excursions from public, anon, authenticated;
 grant select on public.nexo_excursions to anon, authenticated;
 grant insert, update, delete on public.nexo_excursions to authenticated;
 drop policy if exists "nexo_excursions_public_and_admin_read" on public.nexo_excursions;
+drop policy if exists "nexo_excursions_read_published" on public.nexo_excursions;
+drop policy if exists "nexo_excursions_admin_read" on public.nexo_excursions;
 drop policy if exists "nexo_excursions_admin_insert" on public.nexo_excursions;
 drop policy if exists "nexo_excursions_admin_update" on public.nexo_excursions;
 drop policy if exists "nexo_excursions_admin_delete" on public.nexo_excursions;
-create policy "nexo_excursions_public_and_admin_read"
+create policy "nexo_excursions_read_published"
 on public.nexo_excursions for select to anon, authenticated
-using (is_published = true or (select public.is_nexo_admin()));
+using (is_published = true);
+create policy "nexo_excursions_admin_read"
+on public.nexo_excursions for select to authenticated
+using ((select public.is_nexo_admin()));
 create policy "nexo_excursions_admin_insert"
 on public.nexo_excursions for insert to authenticated
 with check ((select public.is_nexo_admin()));
